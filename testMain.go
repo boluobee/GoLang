@@ -3,9 +3,11 @@ package main
 import initTest "initTest"
 import t3Test "t3Test"
 import (
+	"math"
 	"fmt"
 	"os"
 	"runtime"
+	"regexp"
 )
 
 type (
@@ -30,9 +32,15 @@ func init() {
 func main() {
 	println("t2Test main")
 
-	typeofFunction()
-	constFunction()
-	variableFunction()
+	//typeofFunction()
+	//constFunction()
+	//variableFunction()
+
+	// var a float64 =6.7345
+	// var b int=IntFromFloat64(a)
+	// fmt.Printf("IntFromFloat64 return %d",b)
+
+	RegexMatch()
 }
 
 func typeofFunction(){
@@ -78,3 +86,24 @@ func test(){
 	initTest.Test()
 	t3Test.Test()
 } 
+
+func IntFromFloat64(x float64)int{
+	if math.MinInt32<=x&&math.MaxInt32>=x{
+		whole,fraction:=math.Modf(x)
+		if fraction>=0.5{
+			whole++
+		}
+		return int(whole)
+	}
+	panic(fmt.Sprintf("%g is out of the int32 range",x))
+}
+
+func RegexMatch(){
+	reg,err:=regexp.Compile("([a-zA-Z]{1})-*(\\d{4})$")
+	phone:=reg.FindSubmatch([] byte("m1811-C-3100"))
+
+	for i:=0;i<len(phone);i++{
+		fmt.Printf("i %d phone %s err %s",i,phone[i],err)
+	}
+	
+}
